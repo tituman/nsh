@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* body {
+        touch-action: none;
+    }
+        noZoom {
+            width: 100vw;
+            height: 12vh;
+            }
+        .icon {
+            position: relative;
+            height: 0.8em;
+            margin-right: 30px;
+            top: 0px; 
+        }
+            */
+    </style>
+    <title>A Shawl Simulator</title>
+</head>
+
+<body>
+    <h1> </h1>
+    <p>
+    </p>
+    <div id="theDrawing">
+        <svg id="svg" width="1500" height="1500" style="background-color: #ffffff;">
+
+        </svg>
+    </div>
+    <script>
+        const svgns = "http://www.w3.org/2000/svg";
+        const svg = document.getElementById('svg');
+
+        const zeroOffsetX = 10;
+        const zeroOffsetY = 10;
+        const scale = 5;
+
+        const rectList = [10, 8, 7, 6, 5, 4, 4, 3, 3, 2, 2, 1];
+        const rectLLenght = rectList.length-1;
+
+        let col = rectLLenght * 4;
+        let posX = zeroOffsetX;
+        let posY = zeroOffsetY;
+        let index = 0;
+        let incr = true;
+
+        let width = rectList[index];
+        console.log(index);
+        addRect(posX, posY, width, rectList[0]);
+        posX += width; 
+        index++;
+
+        width = rectList[index];
+        console.log(index);
+        addRect(posX, posY, width, rectList[0]);
+        posX += width; 
+
+        for (let i = 1; i < col; i++) {
+
+
+
+            //special handling of index to mirror rectList
+            if ((i)%rectLLenght == 0) {incr = !incr;} //toggle increment or decrement 
+            index = incr ? ++index : --index;               // incr or decrement depending on var
+
+            width = rectList[index];
+            console.log(index);
+            addRect(posX, posY, width, rectList[0]);
+            posX += width; 
+
+
+
+        }
+
+
+console.log('**********************************');
+        function addRect(x, y, width, height) {
+            myRect = document.createElementNS(svgns, 'rect');
+            myRect.setAttributeNS(null, 'width', `${width}`);
+            myRect.setAttributeNS(null, 'height', `${height}`);
+            myRect.setAttributeNS(null, 'x', `${x}`);
+            myRect.setAttributeNS(null, 'y', `${y}`);
+            myRect.setAttributeNS(null, 'stroke', "black");
+            myRect.setAttributeNS(null, 'stroke-width', 0.25);
+            myRect.setAttributeNS(null, 'vector-effect', "non-scaling-stroke");
+            myRect.setAttributeNS(null, 'transform', `scale(${scale}, ${scale})`);
+            myRect.setAttributeNS(null, 'fill', "none");
+            //myRect.setAttributeNS(null, 'id', 'background');
+            svg.appendChild(myRect);
+            return myRect;
+        }
+    </script>
+
+</body>
+
+</html>
