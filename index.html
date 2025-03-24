@@ -42,7 +42,7 @@
         const scale = 5;
 
         const rectList = [10, 8, 7, 6, 5, 4, 4, 3, 3, 2, 2, 1];
-        const rectLLenght = rectList.length-1;
+        const rectLLenght = rectList.length - 1;
 
         let col = rectLLenght * 4;
         let posX = zeroOffsetX;
@@ -50,36 +50,72 @@
         let index = 0;
         let incr = true;
 
-        let width = rectList[index];
-        console.log(index);
-        addRect(posX, posY, width, rectList[0]);
-        posX += width; 
-        index++;
+        // let width = rectList[index];
+        // //console.log(index);
+        // addRect(posX, posY, width, rectList[0]);
+        // posX += width;
+        // index++;
 
-        width = rectList[index];
-        console.log(index);
-        addRect(posX, posY, width, rectList[0]);
-        posX += width; 
+        // width = rectList[index];
+        // console.log(index);
+        // addRect(posX, posY, width, rectList[0]);
+        // posX += width;
 
-        for (let i = 1; i < col; i++) {
+        // for (let i = 1; i < col; i++) {
 
 
 
-            //special handling of index to mirror rectList
-            if ((i)%rectLLenght == 0) {incr = !incr;} //toggle increment or decrement 
-            index = incr ? ++index : --index;               // incr or decrement depending on var
+        //     //special handling of index to mirror rectList
+        //     if ((i) % rectLLenght == 0) { incr = !incr; } //toggle increment or decrement 
+        //     index = incr ? ++index : --index;               // incr or decrement depending on var
 
-            width = rectList[index];
-            console.log(index);
-            addRect(posX, posY, width, rectList[0]);
-            posX += width; 
+        //     width = rectList[index];
+        //     console.log(index);
+        //     addRect(posX, posY, width, rectList[0]);
+        //     posX += width;
 
+
+
+        // }
+
+
+        console.log('**********************************');
+        generateFullList(rectList);
+
+        function generateFullList(simpleList) {
+            let size = (simpleList.length-1) * 4 + 1;
+            let fullList = new Array(size+1);
+
+            fullList[0] = simpleList[0];
+            fullList[1] = simpleList[1];
+            console.log('size: ',size);
+            console.log(0);
+            console.log(1);
+            
+            let index = 1;
+            let incr = true;
+            for (let i = 1; i < (simpleList.length-1)*4; i++) {
+
+
+
+                //special handling of index to mirror rectList
+                if ((i) % rectLLenght == 0) { incr = !incr; } //toggle increment or decrement 
+                index = incr ? ++index : --index;               // incr or decrement depending on var
+
+                fullList[i] = simpleList[index];
+
+                //width = rectList[index];
+                console.log(i+1 + ", "+ index+ ', '+ fullList[i]);
+                //addRect(posX, posY, width, rectList[0]);
+                //posX += width;
+
+
+
+            }
 
 
         }
 
-
-console.log('**********************************');
         function addRect(x, y, width, height) {
             myRect = document.createElementNS(svgns, 'rect');
             myRect.setAttributeNS(null, 'width', `${width}`);
