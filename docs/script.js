@@ -14,7 +14,7 @@ let len = fullList.length;
 
 
 
-checkered();
+
 
 function checkered() {
     let black = '#000000';
@@ -23,7 +23,10 @@ function checkered() {
     drawShawl();
 }
 
-
+function populate(){
+checkered();
+prepareCheckered();
+}
 
 
 /*
@@ -126,7 +129,7 @@ function addRect(x, y, width, height, color) {
     myRect.setAttributeNS(null, 'vector-effect', "non-scaling-stroke");
     myRect.setAttributeNS(null, 'transform', `scale(${scale}, ${scale})`);
     myRect.setAttributeNS(null, 'fill', color);
-    myRect.setAttributeNS(null, 'rx', 0.7);
+    //myRect.setAttributeNS(null, 'rx', 0.7);
     svg.appendChild(myRect);
     return myRect;
 }

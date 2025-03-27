@@ -1,0 +1,27 @@
+menu,
+ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  width: 400px;
+}
+
+li {
+  flex-grow: 1;
+}
+
+button {
+  width: 100%;
+}
+.color-picker-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.color-picker {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border: thin solid;
+    cursor: pointer;
+}

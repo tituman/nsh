@@ -62,13 +62,30 @@
 
 <body>
     <div class="tab-row" id="tabRow"></div>
+    <section> this is a section</section>
     <div id="buttonContainer"></div>
-      <div class="color-picker-row" id="colorPickerRow"></div>
+    <div class="color-picker-row" id="colorPickerRow"></div>
     <svg width="500" height="500" id="svgCanvas" style="border: 1px solid black;"></svg>
     <script>
         // Function to create the tabs
+
+
+
         function createTabs() {
             const tabRow = document.getElementById('tabRow');
+
+            //checkered with optional gradients
+            const tab = document.createElement('div');
+            tab.className = 'tab';
+            tab.textContent = `Checkered`;
+            // Add functionality to the tab
+            tab.addEventListener('click', () => {
+                activateTab(tab);
+                showCheckered();
+            });
+
+
+
             for (let i = 1; i <= 10; i++) {
                 const tab = document.createElement('div');
                 tab.className = 'tab';
@@ -83,7 +100,24 @@
                 tabRow.appendChild(tab);
             }
         }
+        function showCheckered() {
+            const buttonContainer = document.getElementById('buttonContainer');
+            buttonContainer.innerHTML = ''; // Clear any existing buttons
+            buttonContainer.className = 'button-container active'; // Make it visible
 
+            for (let i = 1; i <= 6; i++) {
+                const button = document.createElement('button');
+                button.className = 'action-button';
+                button.textContent = `Button ${i} (Tab ${tabNumber})`;
+
+                // Assign arbitrary functionality
+                button.addEventListener('click', () => {
+                    alert(`Button ${i} of Tab ${tabNumber} clicked!`);
+                });
+
+                buttonContainer.appendChild(button);
+            }
+        }
         // Function to activate a tab
         function activateTab(selectedTab) {
             const tabs = document.querySelectorAll('.tab');
@@ -112,44 +146,44 @@
             }
         }
         // Function to create the color pickers
-    function createColorPickers() {
-      const container = document.getElementById('colorPickerRow');
-      for (let i = 0; i < 45; i++) {
-        const picker = document.createElement('input');
-        picker.type = 'color';
-        picker.className = 'color-picker';
-        picker.value = getRandomColor();
-        
-        // Add event listener for color change
-        picker.addEventListener('input', (event) => {
-          addRectangleToSVG(event.target.value);
-        });
+        function createColorPickers() {
+            const container = document.getElementById('colorPickerRow');
+            for (let i = 0; i < 45; i++) {
+                const picker = document.createElement('input');
+                picker.type = 'color';
+                picker.className = 'color-picker';
+                picker.value = getRandomColor();
 
-        container.appendChild(picker);
-      }
-    }
+                // Add event listener for color change
+                picker.addEventListener('input', (event) => {
+                    addRectangleToSVG(event.target.value);
+                });
 
-    // Function to generate a random color
-    function getRandomColor() {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
-    }
+                container.appendChild(picker);
+            }
+        }
 
-    // Function to add a rectangle to the SVG canvas
-    function addRectangleToSVG(color) {
-      const svgCanvas = document.getElementById('svgCanvas');
-      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      rect.setAttribute('width', 5);
-      rect.setAttribute('height', 5);
-      rect.setAttribute('fill', color);
-      rect.setAttribute('x', Math.random() * (svgCanvas.clientWidth - 5)); // Random x position
-      rect.setAttribute('y', Math.random() * (svgCanvas.clientHeight - 5)); // Random y position
-      svgCanvas.appendChild(rect);
-    }
+        // Function to generate a random color
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Function to add a rectangle to the SVG canvas
+        function addRectangleToSVG(color) {
+            const svgCanvas = document.getElementById('svgCanvas');
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('width', 5);
+            rect.setAttribute('height', 5);
+            rect.setAttribute('fill', color);
+            rect.setAttribute('x', Math.random() * (svgCanvas.clientWidth - 5)); // Random x position
+            rect.setAttribute('y', Math.random() * (svgCanvas.clientHeight - 5)); // Random y position
+            svgCanvas.appendChild(rect);
+        }
 
         // Initialize the tabs
         createTabs();

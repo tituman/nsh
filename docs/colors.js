@@ -40,3 +40,12 @@ function createColorPickers() {
 
   // Initialize the color pickers
   const colors = createColorPickers();
+
+function  prepareCheckered(){
+  let cpCheckered = document.getElementsByClassName('cp-check');
+  for (let i = 0; i < cpCheckered.length; i++) {
+    const  = cpCheckered[i];
+    
+  }
+  console.log(cpCheckered);
+}
