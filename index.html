@@ -6,20 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* body {
-        touch-action: none;
-    }
-        noZoom {
-            width: 100vw;
-            height: 12vh;
-            }
-        .icon {
-            position: relative;
-            height: 0.8em;
-            margin-right: 30px;
-            top: 0px; 
+        .color-picker-row {
+            display: flex;
+            flex-wrap: wrap;
         }
-            */
+
+        .color-picker {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+        }
     </style>
     <title>A Shawl Simulator</title>
 </head>
@@ -28,12 +26,10 @@
     <h1> </h1>
     <p>
     </p>
-    <div id="theDrawing">
-        <svg id="svg" width="1500" height="1500" style="background-color: #ffffff;">
+    <div id="colorPickerRow" class="color-picker-row"></div>
+    <div id="theDrawing"><svg id="svg" width="1500" height="1500" style="background-color: #ffffff;"></svg></div>
 
-        </svg>
-    </div>
-
+    <script src=colors.js></script>
     <script src=script.js></script>
 
 </body>

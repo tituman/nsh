@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combo Box with Buttons</title>
+  <style>
+    .button-container {
+      display: none;
+      margin-top: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .button-container.active {
+      display: flex;
+    }
+
+    .action-button {
+      margin: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 1px solid #007BFF;
+      background: #f0f8ff;
+      border-radius: 5px;
+      color: #007BFF;
+      font-size: 14px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .action-button:hover {
+      background: #007BFF;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <label for="comboBox">Select a Tab:</label>
+    <select id="comboBox">
+      <option value="">Select</option>
+    </select>
+  </div>
+
+  <div id="buttonContainer"></div>
+  <div class="color-picker-row" id="colorPickerRow"></div>
+  <svg width="500" height="500" id="svgCanvas" style="border: 1px solid black;"></svg>
+
+  <script>
+    // Function to create the combo box options
+    function createComboBox() {
+      const comboBox = document.getElementById('comboBox');
+      for (let i = 1; i <= 10; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `Tab ${i}`;
+        comboBox.appendChild(option);
+      }
+
+      // Add event listener for combo box selection
+      comboBox.addEventListener('change', () => {
+        const tabNumber = comboBox.value;
+        if (tabNumber) {
+          showButtons(tabNumber);
+        } else {
+          clearButtons();
+        }
+      });
+    }
+
+    // Function to show buttons for the selected tab
+    function showButtons(tabNumber) {
+      const buttonContainer = document.getElementById('buttonContainer');
+      buttonContainer.innerHTML = ''; // Clear any existing buttons
+      buttonContainer.className = 'button-container active'; // Make it visible
+
+      for (let i = 1; i <= 6; i++) {
+        const button = document.createElement('button');
+        button.className = 'action-button';
+        button.textContent = `Button ${i} (Tab ${tabNumber})`;
+
+        // Assign arbitrary functionality
+        button.addEventListener('click', () => {
+          alert(`Button ${i} of Tab ${tabNumber} clicked!`);
+        });
+
+        buttonContainer.appendChild(button);
+      }
+    }
+
+    // Function to clear buttons
+    function clearButtons() {
+      const buttonContainer = document.getElementById('buttonContainer');
+      buttonContainer.innerHTML = ''; // Clear all buttons
+      buttonContainer.className = 'button-container'; // Hide the container
+    }
+
+    // Function to create the color pickers
+    function createColorPickers() {
+      const container = document.getElementById('colorPickerRow');
+      for (let i = 0; i < 45; i++) {
+        const picker = document.createElement('input');
+        picker.type = 'color';
+        picker.className = 'color-picker';
+        picker.value = getRandomColor();
+
+        // Add event listener for color change
+        picker.addEventListener('input', (event) => {
+          addRectangleToSVG(event.target.value);
+        });
+
+        container.appendChild(picker);
+      }
+    }
+
+    // Function to generate a random color
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Function to add a rectangle to the SVG canvas
+    function addRectangleToSVG(color) {
+      const svgCanvas = document.getElementById('svgCanvas');
+      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('width', 5);
+      rect.setAttribute('height', 5);
+      rect.setAttribute('fill', color);
+      rect.setAttribute('x', Math.random() * (svgCanvas.clientWidth - 5)); // Random x position
+      rect.setAttribute('y', Math.random() * (svgCanvas.clientHeight - 5)); // Random y position
+      svgCanvas.appendChild(rect);
+    }
+
+    // Initialize the combo box and color pickers
+    createComboBox();
+    createColorPickers();
+  </script>
+</body>
+
+</html>

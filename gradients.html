@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradient Colors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    #colorList {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .color-box {
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gradient Generator</h1>
+  <label for="color1">Start Color:</label>
+  <input type="color" id="color1" value="#ff0000">
+  
+  <label for="color2">End Color:</label>
+  <input type="color" id="color2" value="#0000ff">
+  
+  <label for="steps">Steps:</label>
+  <input type="number" id="steps" value="10" min="2">
+  
+  <button onclick="generateGradient()">Generate Gradient</button>
+  
+  <div id="colorList"></div>
+  
+  <script>
+    function generateGradientColors(color1, color2, steps) {
+      const start = hexToRgb(color1);
+      const end = hexToRgb(color2);
+      const gradientColors = [];
+
+      for (let i = 0; i < steps; i++) {
+        const r = Math.round(start.r + (end.r - start.r) * (i / (steps - 1)));
+        const g = Math.round(start.g + (end.g - start.g) * (i / (steps - 1)));
+        const b = Math.round(start.b + (end.b - start.b) * (i / (steps - 1)));
+        gradientColors.push(rgbToHex(r, g, b));
+      }
+
+      return gradientColors;
+    }
+
+    function hexToRgb(hex) {
+      const bigint = parseInt(hex.slice(1), 16);
+      return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255,
+      };
+    }
+
+    function rgbToHex(r, g, b) {
+      return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+    }
+
+    function generateGradient() {
+      const color1 = document.getElementById('color1').value;
+      const color2 = document.getElementById('color2').value;
+      const steps = parseInt(document.getElementById('steps').value, 10);
+      const colors = generateGradientColors(color1, color2, steps);
+
+      const colorList = document.getElementById('colorList');
+      colorList.innerHTML = ''; // Clear any existing colors
+      
+      colors.forEach((color) => {
+        const colorBox = document.createElement('div');
+        colorBox.className = 'color-box';
+        colorBox.style.backgroundColor = color;
+        colorList.appendChild(colorBox);
+      });
+    }
+  </script>
+</body>
+</html>

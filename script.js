@@ -9,35 +9,23 @@ const rectList = [10, 8, 7, 6, 5, 4, 4, 3, 3, 2, 2, 1];
 const fullList = generateFullList(rectList);
 
 let len = fullList.length;
-//let index = 0;
-
-// let width = rectList[index];
-// //console.log(index);
-// addRect(posX, posY, width, rectList[0]);
-// posX += width;
-// index++;
-
-// width = rectList[index];
-// console.log(index);
-// addRect(posX, posY, width, rectList[0]);
-// posX += width;
-
-// for (let i = 1; i < col; i++) {
 
 
 
-//     //special handling of index to mirror rectList
-//     if ((i) % rectLLenght == 0) { incr = !incr; } //toggle increment or decrement 
-//     index = incr ? ++index : --index;               // incr or decrement depending on var
-
-//     width = rectList[index];
-//     console.log(index);
-//     addRect(posX, posY, width, rectList[0]);
-//     posX += width;
 
 
+checkered();
 
-// }
+function checkered() {
+    let black = '#000000';
+    let white = '#ffffff';
+    for (let index = 0; index < colors.length; index++) colors[index].value = (index%2) ? white : black;
+    drawShawl();
+}
+
+
+
+
 /*
 
 We will build the rectangles according to how we will crochet the shawl.
@@ -51,35 +39,32 @@ This will also make colouring the inside easier ;-)
 .
 .
 .
-
 */
+function drawShawl() {
 
+    let col = getRandomColor();
+    let cumX = zeroOffsetX;
+    for (let i = 0; i < len; i++) {
+        let x = i;
+        let posX = cumX;
+        let posY = zeroOffsetY;
+        cumX += fullList[x];
+        for (let y = 0; y <= i; y++) {
+            //normal case, make rect
+            if (i < len - 1) {
+                addRect(posX, posY, fullList[x], fullList[y], colors[i].value);
+            } else {
+                //last case, make triag
+                addTriangle(posX, posY, fullList[x], fullList[y], colors[i].value);
+            }
+            posX -= fullList[x - 1];
+            posY += fullList[y];
+            x--;
 
-
-let posX, posY;     // pos of rect
-let x, y;           // indices of width and length of rect froom the full List
-let col = getRandomColor();
-let cumX = zeroOffsetX;
-for (let i = 0; i < len; i++) {
-    x = i;
-    posX = cumX;
-    posY = zeroOffsetY;
-    cumX += fullList[x];
-    for (let y = 0; y <= i; y++) {
-        //normal case, make rect
-        if (i < len-1) {
-            addRect(posX, posY, fullList[x], fullList[y], col);
-        } else {
-        //last case, make triag
-            addTriangle(posX, posY, fullList[x], fullList[y], col);
         }
-        posX -= fullList[x - 1];
-        posY += fullList[y];
-        x--;
+        col = getRandomColor();
 
     }
-    col = getRandomColor();
-
 }
 
 function getRandomColor() {
@@ -91,8 +76,6 @@ function getRandomColor() {
     return color;
   }
   
-  // Example usage:
-  console.log(getRandomColor());
 
 function generateFullList(simpleList) {
     /*
@@ -143,7 +126,7 @@ function addRect(x, y, width, height, color) {
     myRect.setAttributeNS(null, 'vector-effect', "non-scaling-stroke");
     myRect.setAttributeNS(null, 'transform', `scale(${scale}, ${scale})`);
     myRect.setAttributeNS(null, 'fill', color);
-    myRect.setAttributeNS(null, 'rx', 1);
+    myRect.setAttributeNS(null, 'rx', 0.7);
     svg.appendChild(myRect);
     return myRect;
 }
