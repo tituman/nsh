@@ -8,7 +8,7 @@ const scale = 5;
 const rectList = [10, 8, 7, 6, 5, 4, 4, 3, 3, 2, 2, 1];
 const fullList = generateFullList(rectList);
 
-let len = fullList.length;
+const len = fullList.length;
 
 
 
@@ -67,6 +67,21 @@ function drawShawl() {
         }
         col = getRandomColor();
 
+    }
+    drawNumbers();
+}
+function drawNumbers(){
+    let cumX = zeroOffsetX;
+    for (let i = 0; i < len; i++) {
+        
+        let myText = document.createElementNS(svgns, 'text');
+        myText.setAttributeNS(null, 'x', cumX);
+        myText.setAttributeNS(null, 'y', zeroOffsetY*1.5);
+        myText.setAttribute('class', 'colorNumber');
+        myText.textContent = (i+1);
+        myText.setAttributeNS(null, 'transform', `scale(${scale}, ${scale})`);
+        if (!(i+1==12 || i+1== 34 )) svg.appendChild(myText);       //too thin to show
+        cumX += fullList[i];
     }
 }
 
