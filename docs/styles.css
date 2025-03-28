@@ -25,3 +25,10 @@ button {
     border: thin solid;
     cursor: pointer;
 }
+.color-picker-mid {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  border: thick solid;
+  cursor: crosshair;
+}

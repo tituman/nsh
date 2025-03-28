@@ -1,22 +1,47 @@
 function createColorPickers() {
-  const btnArray = new Array(45); //TODO: add global constant here!
+  const btnArray = new Array(fullList.length);
   const container = document.getElementById('colorPickerRow');
   for (let i = 0; i < btnArray.length; i++) {
     const picker = document.createElement('input');
     picker.type = 'color';
     picker.className = 'color-picker';
-    picker.value = '#ffffff';//getRandomColor();
+    picker.value = '#ffffff';
 
     // Add event listener for color change
     picker.addEventListener('input', (event) => {
+      //timer function to delay triggering events too quickly
+      //set a timer and if double click happens, delete the turtle
+      if (inputTimer == null) {
+        inputTimer = setTimeout(function () {
+          inputTimer = null;
+          drawShawl();
+
+        }, 200)
+      } else {
+        clearTimeout(inputTimer);
+        inputTimer = null;
+        return;
+      }
+
+    });
+    picker.addEventListener('change', (event) => {
       drawShawl();
     });
 
     container.appendChild(picker);
     btnArray[i] = picker;
   }
+
+  //mark the middle one
+  btnArray[22].className = 'color-picker-mid';
+
   return btnArray;
 }
+
+
+var inputTimer = null;
+
+
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
@@ -67,7 +92,7 @@ function prepareCheckered() {
         }
       }
     }
-    if  (option == 2) {
+    if (option == 2) {
       let steps = Math.floor(fullList.length / 2);
       let checkeredColors = generateGradientColors(fillMode_Checkered[2].value, fillMode_Checkered[3].value, steps);
       for (let i = 0; i < colors.length; i++) {

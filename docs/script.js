@@ -19,13 +19,13 @@ let len = fullList.length;
 function checkered() {
     let black = '#000000';
     let white = '#ffffff';
-    for (let index = 0; index < colors.length; index++) colors[index].value = (index%2) ? white : black;
+    for (let index = 0; index < colors.length; index++) colors[index].value = (index % 2) ? white : black;
     drawShawl();
 }
 
-function populate(){
-checkered();
-prepareCheckered();
+function populate() {
+    checkered();
+    prepareCheckered();
 }
 
 
@@ -74,11 +74,11 @@ function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+        color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
-  
+}
+
 
 function generateFullList(simpleList) {
     /*
@@ -100,7 +100,7 @@ function generateFullList(simpleList) {
 
     let len = simpleList.length - 1;
     let size = (len) * 4;               // our full list is the simple list 4 times 
-    let fullList = new Array(size+1);   // we will include the last triangle, which is an anomaly
+    let fullList = new Array(size + 1);   // we will include the last triangle, which is an anomaly
     let i = 0;
 
     //handle first element anomaly
@@ -136,7 +136,7 @@ function addRect(x, y, width, height, color) {
 
 function addTriangle(x, y, width, height, color) {
     myTri = document.createElementNS(svgns, 'polygon');
-    myTri.setAttributeNS(null, 'points', `${x},${y} ${x+width},${y} ${x},${y+height}`);
+    myTri.setAttributeNS(null, 'points', `${x},${y} ${x + width},${y} ${x},${y + height}`);
     myTri.setAttributeNS(null, 'stroke', "black");
     myTri.setAttributeNS(null, 'stroke-width', 0.25);
     myTri.setAttributeNS(null, 'vector-effect', "non-scaling-stroke");

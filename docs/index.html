@@ -10,8 +10,10 @@
 </head>
 
 <body onload="populate()">
-    <h1> bli </h1>
-    <h2> checkered with optional gradients </h2>
+    <h1> Crochet project color simulation </h1>
+
+
+    <h2> Checkered with optional gradients </h2>
     <label for="cp-check1">first square:</label>
     <input type="color" class="color-picker cp-check" id="cp-check1" value="#ff0000" />
     <label for="cp-check2">end triangle:</label>
@@ -23,6 +25,12 @@
     <label for="cp-check4">last square:</label>
     <input type="color" class="color-picker cp-check" id="cp-check4" value="#ff00ff" />
     gradient.
+
+
+    <h2> Mirrored along the center (or shifted off-center) </h2>
+
+    
+    <h2> Mirrored along the center (or shifted off-center) </h2>
     
     <ul>
         <li><button onclick="copy()">Copy</button></li>
@@ -32,8 +40,8 @@
     <div id="colorPickerRow" class="color-picker-row"></div>
     <div id="theDrawing"><svg id="svg" width="1500" height="1500" style="background-color: #ffffff;"></svg></div>
 
-    <script src=colors.js></script>
     <script src=script.js></script>
+    <script src=colors.js></script>
 
 </body>
 
