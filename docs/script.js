@@ -76,7 +76,7 @@ function drawNumbers(){
         
         let myText = document.createElementNS(svgns, 'text');
         myText.setAttributeNS(null, 'x', cumX);
-        myText.setAttributeNS(null, 'y', zeroOffsetY*1.5);
+        myText.setAttributeNS(null, 'y', zeroOffsetY);
         myText.setAttribute('class', 'colorNumber');
         myText.textContent = (i+1);
         myText.setAttributeNS(null, 'transform', `scale(${scale}, ${scale})`);
