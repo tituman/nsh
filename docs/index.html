@@ -15,23 +15,39 @@
 
     <h2> Checkered with optional gradients </h2>
     <label for="cp-check1">first square:</label>
-    <input type="color" class="color-picker cp-check" id="cp-check1" value="#ff0000" />
+    <input type="color" class="color-picker cp-check" id="cp-check1" value="#000000" />
     <label for="cp-check2">end triangle:</label>
-    <input type="color" class="color-picker cp-check" id="cp-check2" value="#d050ff" />
+    <input type="color" class="color-picker cp-check" id="cp-check2" value="#000000" />
     gradient.
     <p></p>
     <label for="cp-check3">second square:</label>
-    <input type="color" class="color-picker cp-check" id="cp-check3" value="#0000ff" />
+    <input type="color" class="color-picker cp-check" id="cp-check3" value="#ffffff" />
     <label for="cp-check4">last square:</label>
-    <input type="color" class="color-picker cp-check" id="cp-check4" value="#ff00ff" />
+    <input type="color" class="color-picker cp-check" id="cp-check4" value="#ffff00" />
     gradient.
 
 
     <h2> Mirrored along the center (or shifted off-center) </h2>
 
-    
-    <h2> Mirrored along the center (or shifted off-center) </h2>
-    
+    <input type="radio" id="rbMirrorLeft" name="mirrorRight" />
+    <label for="rbMirrorLeft">⬅️</label>
+    <label for="rbMirrorRight">➡️</label>
+    <input type="radio" id="rbMirrorRight" name="mirrorRight" checked />
+
+    <p></p>
+    <p><output id="rangeValue" class="range-display"></output></p>
+    <input type="range" id="rangeSlider" class="slider" min="1" max="45" value="23" list="markers">
+    <datalist id="markers">
+        <option value="1" label="1"></option>
+        <option value="23" label="23"></option>
+        <option value="45" label="45"></option>
+    </datalist>
+
+    <p></p>
+    <button onclick="fillMirrored()">accept</button>
+
+    <h2> Add multiple colors at once </h2>
+
     <ul>
         <li><button onclick="copy()">Copy</button></li>
         <li><button onclick="cut()">Cut</button></li>

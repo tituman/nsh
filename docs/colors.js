@@ -1,3 +1,12 @@
+
+// Initialize the color pickers
+const colors = createColorPickers();
+const tempColors = [];
+const fillMode_Checkered = [];
+let revert = true;
+
+var inputTimer = null;
+
 function createColorPickers() {
   const btnArray = new Array(fullList.length);
   const container = document.getElementById('colorPickerRow');
@@ -9,10 +18,10 @@ function createColorPickers() {
 
     // Add event listener for color change
     picker.addEventListener('input', (event) => {
-      executeAfterTimer(drawShawl);
+      executeAfterTimer(fillColors);
     });
     picker.addEventListener('change', (event) => {
-      drawShawl();
+      fillColors();
     });
     container.appendChild(picker);
     btnArray[i] = picker;
@@ -25,13 +34,11 @@ function createColorPickers() {
 }
 
 
-var inputTimer = null;
-
 function executeAfterTimer(redraw) {
   //timer function to delay triggering events too quickly
   //set a timer and if double click happens, delete the turtle
   if (inputTimer == null) {
-      redraw();
+    redraw();
     inputTimer = setTimeout(function () {
       inputTimer = null;
 
@@ -44,7 +51,45 @@ function executeAfterTimer(redraw) {
 
 }
 
+function prepareMirrored() {
+  const rSlider = document.getElementById('rangeSlider');
+  const rVal = document.getElementById('rangeValue');
 
+  rVal.textContent = rSlider.value;
+  rSlider.addEventListener("input", (event) => {
+    rVal.textContent = event.target.value;
+    fillMirrored(event.target.value);
+  });
+}
+
+function fillMirrored() {
+  const pivot = document.getElementById('rangeValue').value;
+  const mirrorRight = document.getElementById('rbMirrorRight').checked;
+
+  //fill temp copy of color
+  // in case we want to revert to original
+  if (revert) {
+    for (let i = 0; i < colors.length; i++) {
+      tempColors[i] = colors[i].value;
+    }
+    revert = false;
+  }
+
+  //fill the mirror
+  let colorsToMirror = [];
+  for (let i = 0; i < len; i++) {
+    if (i < pivot){
+      colorsToMirror[i] = colors[i].value;
+    }
+    if (i > pivot) {
+      //if ((i-pivot) < colorsToMirror.length){
+        colors[i].value = colorsToMirror[2*pivot-i];
+      //}
+    }
+  }
+    //finally re-fill the colors
+    fillColors();
+}
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
@@ -66,10 +111,7 @@ function addRectangleToSVG(color) {
   svgCanvas.appendChild(rect);
 }
 
-// Initialize the color pickers
-const colors = createColorPickers();
-const fillMode_Checkered = [];
-
+//adds event listeners to the fill mode checkered
 function prepareCheckered() {
   let cpCheckered = document.getElementsByClassName('cp-check');
   for (let i = 0; i < cpCheckered.length; i++) {
@@ -78,23 +120,21 @@ function prepareCheckered() {
 
     fillMode_Checkered[i].addEventListener('input', (event) => { //maybe 'change' instead of 'input'
       let id = event.target.id;
-      console.log("id: ", id);
-      if (id == "cp-check1" || id == "cp-check2") executeAfterTimer(function(){ fillCheckered(1)});
-      else executeAfterTimer(function(){ fillCheckered(2)});;
+      if (id == "cp-check1" || id == "cp-check2") executeAfterTimer(function () { fillCheckered(1) });
+      else executeAfterTimer(function () { fillCheckered(2) });;
     });
 
     fillMode_Checkered[i].addEventListener('change', (event) => { //maybe 'change' instead of 'input'
       let id = event.target.id;
-      console.log("id: ", id);
       if (id == "cp-check1" || id == "cp-check2") fillCheckered(1);
       else fillCheckered(2);
     });
 
-    
+
   }
+
   function fillCheckered(option) {
     //get gradient from cp1 and cp2 of checkered
-    //alert("bli");
     if (option == 1) {
       let steps = Math.ceil(fullList.length / 2);
       let checkeredColors = generateGradientColors(fillMode_Checkered[0].value, fillMode_Checkered[1].value, steps);
@@ -104,6 +144,8 @@ function prepareCheckered() {
         }
       }
     }
+
+    //get gradient from cp1 and cp2 of checkered
     if (option == 2) {
       let steps = Math.floor(fullList.length / 2);
       let checkeredColors = generateGradientColors(fillMode_Checkered[2].value, fillMode_Checkered[3].value, steps);
@@ -114,7 +156,8 @@ function prepareCheckered() {
       }
     }
 
-    drawShawl();
+    //finally re-fill the colors
+    fillColors();
   }
   function generateGradientColors(color1, color2, steps) {
     const start = hexToRgb(color1);

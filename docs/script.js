@@ -9,6 +9,7 @@ const rectList = [10, 8, 7, 6, 5, 4, 4, 3, 3, 2, 2, 1];
 const fullList = generateFullList(rectList);
 
 const len = fullList.length;
+const allshapes = [];
 
 
 
@@ -24,10 +25,24 @@ function checkered() {
 }
 
 function populate() {
+    drawNumbers();
     checkered();
     prepareCheckered();
+    prepareMirrored();
 }
 
+
+
+
+function fillColors(){
+    for (let i = 0; i < allshapes.length; i++) {
+        for (let j = 0; j < allshapes[i].length; j++) {
+            allshapes[i][j].setAttributeNS(null, 'fill', colors[i].value);
+            
+        }
+    }
+    console.log('filled colors');
+}
 
 /*
 
@@ -44,32 +59,29 @@ This will also make colouring the inside easier ;-)
 .
 */
 function drawShawl() {
-
-    let col = getRandomColor();
     let cumX = zeroOffsetX;
     for (let i = 0; i < len; i++) {
         let x = i;
         let posX = cumX;
         let posY = zeroOffsetY;
         cumX += fullList[x];
+        allshapes[i] = [];
         for (let y = 0; y <= i; y++) {
             //normal case, make rect
             if (i < len - 1) {
-                addRect(posX, posY, fullList[x], fullList[y], colors[i].value);
+                allshapes[i][y] = addRect(posX, posY, fullList[x], fullList[y], colors[i].value);
             } else {
                 //last case, make triag
-                addTriangle(posX, posY, fullList[x], fullList[y], colors[i].value);
+                allshapes[i][y] = addTriangle(posX, posY, fullList[x], fullList[y], colors[i].value);
             }
             posX -= fullList[x - 1];
             posY += fullList[y];
             x--;
-
         }
-        col = getRandomColor();
-
     }
-    drawNumbers();
 }
+
+
 function drawNumbers(){
     let cumX = zeroOffsetX;
     for (let i = 0; i < len; i++) {
@@ -78,9 +90,19 @@ function drawNumbers(){
         myText.setAttributeNS(null, 'x', cumX);
         myText.setAttributeNS(null, 'y', zeroOffsetY);
         myText.setAttribute('class', 'colorNumber');
-        myText.textContent = (i+1);
+        if (!(i+1==12 || i+1== 34 )) myText.textContent = (i+1);      
+        else myText.textContent = ('|');//too thin to show
         myText.setAttributeNS(null, 'transform', `scale(${scale}, ${scale})`);
-        if (!(i+1==12 || i+1== 34 )) svg.appendChild(myText);       //too thin to show
+        svg.appendChild(myText); 
+
+        myText = myText.cloneNode(true);
+        myText.setAttributeNS(null, 'x', zeroOffsetX-2);
+        myText.setAttributeNS(null, 'y', cumX +2);
+        
+        if (!(i+1==12 || i+1== 34 )) myText.textContent = (i+1);      
+        else myText.textContent = ('``');//too thin to show
+        svg.appendChild(myText);
+
         cumX += fullList[i];
     }
 }
