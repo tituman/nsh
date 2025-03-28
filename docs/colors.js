@@ -9,25 +9,11 @@ function createColorPickers() {
 
     // Add event listener for color change
     picker.addEventListener('input', (event) => {
-      //timer function to delay triggering events too quickly
-      //set a timer and if double click happens, delete the turtle
-      if (inputTimer == null) {
-        inputTimer = setTimeout(function () {
-          inputTimer = null;
-          drawShawl();
-
-        }, 200)
-      } else {
-        clearTimeout(inputTimer);
-        inputTimer = null;
-        return;
-      }
-
+      executeAfterTimer(drawShawl);
     });
     picker.addEventListener('change', (event) => {
       drawShawl();
     });
-
     container.appendChild(picker);
     btnArray[i] = picker;
   }
@@ -40,6 +26,23 @@ function createColorPickers() {
 
 
 var inputTimer = null;
+
+function executeAfterTimer(redraw) {
+  //timer function to delay triggering events too quickly
+  //set a timer and if double click happens, delete the turtle
+  if (inputTimer == null) {
+      redraw();
+    inputTimer = setTimeout(function () {
+      inputTimer = null;
+
+    }, 200)
+  } else {
+    //clearTimeout(inputTimer);
+    //inputTimer = null;
+    return;
+  }
+
+}
 
 
 
@@ -72,13 +75,22 @@ function prepareCheckered() {
   for (let i = 0; i < cpCheckered.length; i++) {
 
     fillMode_Checkered[i] = cpCheckered[i];
+
+    fillMode_Checkered[i].addEventListener('input', (event) => { //maybe 'change' instead of 'input'
+      let id = event.target.id;
+      console.log("id: ", id);
+      if (id == "cp-check1" || id == "cp-check2") executeAfterTimer(function(){ fillCheckered(1)});
+      else executeAfterTimer(function(){ fillCheckered(2)});;
+    });
+
     fillMode_Checkered[i].addEventListener('change', (event) => { //maybe 'change' instead of 'input'
       let id = event.target.id;
       console.log("id: ", id);
       if (id == "cp-check1" || id == "cp-check2") fillCheckered(1);
       else fillCheckered(2);
     });
-    console.log(fillMode_Checkered[i].id);
+
+    
   }
   function fillCheckered(option) {
     //get gradient from cp1 and cp2 of checkered
