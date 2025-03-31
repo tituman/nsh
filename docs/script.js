@@ -21,12 +21,13 @@ function checkered() {
     let black = '#000000';
     let white = '#ffffff';
     for (let index = 0; index < colors.length; index++) colors[index].value = (index % 2) ? white : black;
-    drawShawl();
+    fillColors();
 }
 
 function populate() {
+    drawShawl();
     drawNumbers();
-    checkered();
+    //checkered();
     prepareCheckered();
     prepareMirrored();
 }
