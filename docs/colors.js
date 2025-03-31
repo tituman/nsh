@@ -23,9 +23,15 @@ function createColorPickers() {
     picker.addEventListener('change', (event) => {
       fillColors();
     });
+    //event listener for double click. will be used for multiple color adds
+    picker.addEventListener("dblclick", (event) => {
+      alert('dblclck');
+    });
+
     container.appendChild(picker);
     btnArray[i] = picker;
   }
+
 
   //mark the middle one
   btnArray[22].className = 'color-picker-mid';
@@ -78,17 +84,17 @@ function fillMirrored() {
   //fill the mirror
   let colorsToMirror = [];
   for (let i = 0; i < len; i++) {
-    if (i < pivot){
+    if (i < pivot) {
       colorsToMirror[i] = colors[i].value;
     }
     if (i > pivot) {
       //if ((i-pivot) < colorsToMirror.length){
-        colors[i].value = colorsToMirror[2*pivot-i];
+      colors[i].value = colorsToMirror[2 * pivot - i];
       //}
     }
   }
-    //finally re-fill the colors
-    fillColors();
+  //finally re-fill the colors
+  fillColors();
 }
 
 function getRandomColor() {

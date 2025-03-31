@@ -1,194 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabs with Buttons</title>
+    <title>Double Tap Example</title>
     <style>
-        .tab-row {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #ccc;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            margin: 0 5px;
-            border: none;
-            border-bottom: 2px solid transparent;
-            background: none;
-            font-size: 16px;
-            transition: border-bottom-color 0.3s;
-        }
-
-        .tab:hover,
-        .tab.active {
-            border-bottom: 2px solid #007BFF;
-            color: #007BFF;
-        }
-
-        .button-container {
-            display: none;
+        #inputContainer {
+            display: none; /* Hidden by default */
             margin-top: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
+            text-align: center;
         }
-
-        .button-container.active {
-            display: flex;
-        }
-
-        .action-button {
-            margin: 5px;
-            padding: 10px 20px;
+        .arrow {
             cursor: pointer;
-            border: 1px solid #007BFF;
-            background: #f0f8ff;
-            border-radius: 5px;
-            color: #007BFF;
-            font-size: 14px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .action-button:hover {
-            background: #007BFF;
-            color: white;
+            font-size: 24px;
+            margin: 0 20px;
+            user-select: none;
         }
     </style>
+    
+    <link rel="stylesheet" href="docs/styles.css">
 </head>
-
 <body>
-    <div class="tab-row" id="tabRow"></div>
-    <section> this is a section</section>
-    <div id="buttonContainer"></div>
-    <div class="color-picker-row" id="colorPickerRow"></div>
-    <svg width="500" height="500" id="svgCanvas" style="border: 1px solid black;"></svg>
+    <div id="myElement" style="width: 200px; height: 100px; background-color: lightblue; text-align: center; line-height: 100px;">
+        Double Tap Me
+    </div>
+    
+    <div id="inputContainer">
+        <span id="leftArrow" class="arrow">⬅</span>
+        <span id="outputValue">0</span>
+        <span id="rightArrow" class="arrow">➡</span>
+    </div>
+    
     <script>
-        // Function to create the tabs
+        // Select elements
+        const element = document.getElementById("myElement");
+        const inputContainer = document.getElementById("inputContainer");
+        const leftArrow = document.getElementById("leftArrow");
+        const rightArrow = document.getElementById("rightArrow");
+        const outputValue = document.getElementById("outputValue");
 
+        let currentValue = 0;
+        let lastTapTime = 0;
 
+        // Function to handle double-tap detection
+        element.addEventListener("touchend", function () {
+            const currentTime = new Date().getTime();
+            const tapInterval = currentTime - lastTapTime;
 
-        function createTabs() {
-            const tabRow = document.getElementById('tabRow');
-
-            //checkered with optional gradients
-            const tab = document.createElement('div');
-            tab.className = 'tab';
-            tab.textContent = `Checkered`;
-            // Add functionality to the tab
-            tab.addEventListener('click', () => {
-                activateTab(tab);
-                showCheckered();
-            });
-
-
-
-            for (let i = 1; i <= 10; i++) {
-                const tab = document.createElement('div');
-                tab.className = 'tab';
-                tab.textContent = `Tab ${i}`;
-
-                // Add functionality to the tab
-                tab.addEventListener('click', () => {
-                    activateTab(tab);
-                    showButtons(i);
-                });
-
-                tabRow.appendChild(tab);
+            if (tapInterval < 300 && tapInterval > 0) {
+                // Detected a double-tap
+                inputContainer.style.display = "block";
             }
+            lastTapTime = currentTime;
+        });
+
+        // Decrease the value when the left arrow is clicked or touched
+        leftArrow.addEventListener("click", function () {
+            currentValue--;
+            updateOutput();
+        });
+
+        leftArrow.addEventListener("touchstart", function (event) {
+            event.preventDefault(); // Prevent mouse event duplication
+            currentValue--;
+            updateOutput();
+        });
+
+        // Increase the value when the right arrow is clicked or touched
+        rightArrow.addEventListener("click", function () {
+            currentValue++;
+            updateOutput();
+        });
+
+        rightArrow.addEventListener("touchstart", function (event) {
+            event.preventDefault(); // Prevent mouse event duplication
+            currentValue++;
+            updateOutput();
+        });
+
+        // Function to update the output and log to the console
+        function updateOutput() {
+            outputValue.textContent = currentValue;
+            console.log(`Current value: ${currentValue}`);
         }
-        function showCheckered() {
-            const buttonContainer = document.getElementById('buttonContainer');
-            buttonContainer.innerHTML = ''; // Clear any existing buttons
-            buttonContainer.className = 'button-container active'; // Make it visible
 
-            for (let i = 1; i <= 6; i++) {
-                const button = document.createElement('button');
-                button.className = 'action-button';
-                button.textContent = `Button ${i} (Tab ${tabNumber})`;
-
-                // Assign arbitrary functionality
-                button.addEventListener('click', () => {
-                    alert(`Button ${i} of Tab ${tabNumber} clicked!`);
-                });
-
-                buttonContainer.appendChild(button);
+        // Hide the input container when clicking or touching outside
+        document.addEventListener("click", function (event) {
+            if (!inputContainer.contains(event.target) && !element.contains(event.target)) {
+                inputContainer.style.display = "none";
             }
-        }
-        // Function to activate a tab
-        function activateTab(selectedTab) {
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach((tab) => tab.classList.remove('active'));
-            selectedTab.classList.add('active');
-        }
+        });
 
-        // Function to show buttons for a selected tab
-        function showButtons(tabNumber) {
-            console.log(`showButtons called for Tab ${tabNumber}`); // Debug message
-            const buttonContainer = document.getElementById('buttonContainer');
-            buttonContainer.innerHTML = ''; // Clear any existing buttons
-            buttonContainer.className = 'button-container active'; // Make it visible
-
-            for (let i = 1; i <= 6; i++) {
-                const button = document.createElement('button');
-                button.className = 'action-button';
-                button.textContent = `Button ${i} (Tab ${tabNumber})`;
-
-                // Assign arbitrary functionality
-                button.addEventListener('click', () => {
-                    alert(`Button ${i} of Tab ${tabNumber} clicked!`);
-                });
-
-                buttonContainer.appendChild(button);
+        document.addEventListener("touchstart", function (event) {
+            if (!inputContainer.contains(event.target) && !element.contains(event.target)) {
+                inputContainer.style.display = "none";
             }
-        }
-        // Function to create the color pickers
-        function createColorPickers() {
-            const container = document.getElementById('colorPickerRow');
-            for (let i = 0; i < 45; i++) {
-                const picker = document.createElement('input');
-                picker.type = 'color';
-                picker.className = 'color-picker';
-                picker.value = getRandomColor();
-
-                // Add event listener for color change
-                picker.addEventListener('input', (event) => {
-                    addRectangleToSVG(event.target.value);
-                });
-
-                container.appendChild(picker);
-            }
-        }
-
-        // Function to generate a random color
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-
-        // Function to add a rectangle to the SVG canvas
-        function addRectangleToSVG(color) {
-            const svgCanvas = document.getElementById('svgCanvas');
-            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            rect.setAttribute('width', 5);
-            rect.setAttribute('height', 5);
-            rect.setAttribute('fill', color);
-            rect.setAttribute('x', Math.random() * (svgCanvas.clientWidth - 5)); // Random x position
-            rect.setAttribute('y', Math.random() * (svgCanvas.clientHeight - 5)); // Random y position
-            svgCanvas.appendChild(rect);
-        }
-
-        // Initialize the tabs
-        createTabs();
-        createColorPickers();
+        });
     </script>
 </body>
-
 </html>

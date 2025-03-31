@@ -9,23 +9,25 @@ ul {
 li {
   flex-grow: 1;
 }
+
 /*
 button {
   width: 100%;
 }
   */
 .color-picker-row {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .color-picker {
-    width: 30px;
-    height: 30px;
-    margin: 5px;
-    border: thin solid;
-    cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  border: thin solid;
+  cursor: pointer;
 }
+
 .color-picker-mid {
   width: 30px;
   height: 30px;
@@ -33,10 +35,12 @@ button {
   border: thick solid;
   cursor: crosshair;
 }
+
 .colorNumber {
   font-family: sans-serif;
   font-size: 0.1rem;
 }
+
 /* Display value styling 
   //font-size: 24px;*/
 .range-display {
@@ -45,6 +49,7 @@ button {
   margin-top: 20px;
   text-align: center;
 }
+
 datalist {
   display: flex;
   flex-direction: column;
@@ -52,6 +57,7 @@ datalist {
   writing-mode: vertical-lr;
   width: 200px;
 }
+
 option {
   padding: 0;
 }
@@ -59,4 +65,9 @@ option {
 input[type="range"] {
   width: 200px;
   margin: 0;
+}
+
+html {
+  touch-action: manipulation;
+  /* Prevent zooming via double-tap */
 }
