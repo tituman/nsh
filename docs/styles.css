@@ -23,9 +23,17 @@ button {
 .color-picker {
   width: 30px;
   height: 30px;
-  margin: 5px;
-  border: thin solid;
   cursor: pointer;
+}
+
+.color-picker-div {
+  width: 50px;
+  height: 100px;
+  margin: 5px;
+  /*margin: 5px;*/
+  border: thin solid;
+  border: thin solid;
+  /*cursor: pointer;*/
 }
 
 .color-picker-mid {
@@ -34,6 +42,7 @@ button {
   margin: 5px;
   border: thick solid;
   cursor: crosshair;
+  color: #333;
 }
 
 .colorNumber {

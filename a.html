@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Double Tap Example</title>
+    <title>Arrows Above Color Picker</title>
     <style>
-        #inputContainer {
-            display: none; /* Hidden by default */
-            margin-top: 10px;
+        #container {
+            margin-top: 20px;
             text-align: center;
         }
+
+        #colorInput {
+            border: none;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            margin-top: 5px;
+            /* Spacing to position below arrows */
+            border: thick solid;
+            cursor: pointer;
+            color: #ff3333;
+        }
+
+        #outputContainer {
+            display: none;
+            /* Hidden by default */
+            margin-bottom: 10px;
+            /* Adjusted spacing to keep above the color picker */
+        }
+
         .arrow {
             cursor: pointer;
             font-size: 24px;
@@ -15,41 +35,44 @@
             user-select: none;
         }
     </style>
-    
-    <link rel="stylesheet" href="docs/styles.css">
 </head>
-<body>
-    <div id="myElement" style="width: 200px; height: 100px; background-color: lightblue; text-align: center; line-height: 100px;">
-        Double Tap Me
+
+<body>        <div id="outputContainer">
+            <span id="leftArrow" class="arrow">⬅</span>
+            <span id="outputValue">0</span>
+            <span id="rightArrow" class="arrow">➡</span>
+        </div>
+    <div id="container">
+        <!-- Arrows for Number Adjustment -->
+<p>middle</p>
+
+        <!-- Color Picker -->
+        <input type="color" id="colorInput" />
     </div>
-    
-    <div id="inputContainer">
-        <span id="leftArrow" class="arrow">⬅</span>
-        <span id="outputValue">0</span>
-        <span id="rightArrow" class="arrow">➡</span>
-    </div>
-    
+
     <script>
         // Select elements
-        const element = document.getElementById("myElement");
-        const inputContainer = document.getElementById("inputContainer");
+        const colorInput = document.getElementById("colorInput");
+        const outputContainer = document.getElementById("outputContainer");
         const leftArrow = document.getElementById("leftArrow");
         const rightArrow = document.getElementById("rightArrow");
         const outputValue = document.getElementById("outputValue");
 
         let currentValue = 0;
-        let lastTapTime = 0;
 
-        // Function to handle double-tap detection
-        element.addEventListener("touchend", function () {
-            const currentTime = new Date().getTime();
-            const tapInterval = currentTime - lastTapTime;
-
-            if (tapInterval < 300 && tapInterval > 0) {
-                // Detected a double-tap
-                inputContainer.style.display = "block";
+        // Show or hide the arrows and color picker together
+        colorInput.addEventListener("click", function () {
+            if (outputContainer.style.display === "none") {
+                outputContainer.style.display = "block";
+            } else {
+                outputContainer.style.display = "none";
             }
-            lastTapTime = currentTime;
+        });
+
+        // Handle color picker interaction
+        colorInput.addEventListener("change", function () {
+            const selectedColor = colorInput.value;
+            console.log(`Selected color: ${selectedColor}`);
         });
 
         // Decrease the value when the left arrow is clicked or touched
@@ -79,21 +102,9 @@
         // Function to update the output and log to the console
         function updateOutput() {
             outputValue.textContent = currentValue;
-            console.log(`Current value: ${currentValue}`);
+            console.log(`Current number: ${currentValue}`);
         }
-
-        // Hide the input container when clicking or touching outside
-        document.addEventListener("click", function (event) {
-            if (!inputContainer.contains(event.target) && !element.contains(event.target)) {
-                inputContainer.style.display = "none";
-            }
-        });
-
-        document.addEventListener("touchstart", function (event) {
-            if (!inputContainer.contains(event.target) && !element.contains(event.target)) {
-                inputContainer.style.display = "none";
-            }
-        });
     </script>
 </body>
+
 </html>
