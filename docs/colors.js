@@ -94,7 +94,6 @@ prevRow.value = (prevRow)? color : '#001133';
 
 function executeAfterTimer(redraw) {
   //timer function to delay triggering events too quickly
-  //set a timer and if double click happens, delete the turtle
   if (inputTimer == null) {
     redraw();
     inputTimer = setTimeout(function () {
