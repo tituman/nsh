@@ -52,7 +52,7 @@ function createColorPickers() {
 
 
   //mark the middle one
-  btnArray[22].previousSibling.innerHTML = 'mid';
+ // btnArray[22].previousSibling.innerHTML = 'mid';
   btnArray[22].className = 'color-picker-mid';
 
   return btnArray;
@@ -120,7 +120,7 @@ function prepareMirrored() {
 }
 
 function fillMirrored() {
-  const pivot = document.getElementById('rangeValue').value;
+  const pivot = document.getElementById('rangeValue').value -1;
   const mirrorRight = document.getElementById('rbMirrorRight').checked;
 
   //fill temp copy of color
@@ -131,19 +131,36 @@ function fillMirrored() {
     }
     revert = false;
   }
-
+console.log('mirrorerdRight: ', mirrorRight);
   //fill the mirror
   let colorsToMirror = [];
-  for (let i = 0; i < len; i++) {
-    if (i < pivot) {
-      colorsToMirror[i] = colors[i].value;
+  if(mirrorRight) {
+    for (let i = 0; i < len; i++) {
+      if (i < pivot) {
+        colorsToMirror[i] = colors[i].value;
+        console.log('colors[' + i + 'i].value: ', colors[i].value);
+      }
+      if (i > pivot) {
+        //if ((i-pivot) < colorsToMirror.length){
+        colors[i].value = colorsToMirror[2 * pivot - i];
+        //}
+        
+        console.log('colors[' + i + 'i].value: ', colors[i].value);
+      }
     }
-    if (i > pivot) {
-      //if ((i-pivot) < colorsToMirror.length){
-      colors[i].value = colorsToMirror[2 * pivot - i];
-      //}
+  }else {
+    for (let i = len-1; i >= 0; i--) {
+      if (i > pivot) {
+        colorsToMirror[i] = colors[i].value;
+        console.log('colors[' + i + 'i].value: ', colors[i].value);
+      }
+      if (i < pivot) {
+        colors[i].value = colorsToMirror[2 * pivot - i];
+        console.log('colors[' + i + 'i].value: ', colors[i].value);
+      }
     }
   }
+
   //finally re-fill the colors
   fillColors();
 }
@@ -157,16 +174,16 @@ function getRandomColor() {
   return color;
 }
 
-function addRectangleToSVG(color) {
-  const svgCanvas = document.getElementById('svgCanvas');
-  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-  rect.setAttribute('width', 5);
-  rect.setAttribute('height', 5);
-  rect.setAttribute('fill', color);
-  rect.setAttribute('x', Math.random() * (svgCanvas.clientWidth - 5)); // Random x position
-  rect.setAttribute('y', Math.random() * (svgCanvas.clientHeight - 5)); // Random y position
-  svgCanvas.appendChild(rect);
-}
+// function addRectangleToSVG(color) {
+//   const svgCanvas = document.getElementById('svgCanvas');
+//   const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+//   rect.setAttribute('width', 5);
+//   rect.setAttribute('height', 5);
+//   rect.setAttribute('fill', color);
+//   rect.setAttribute('x', Math.random() * (svgCanvas.clientWidth - 5)); // Random x position
+//   rect.setAttribute('y', Math.random() * (svgCanvas.clientHeight - 5)); // Random y position
+//   svgCanvas.appendChild(rect);
+// }
 
 //adds event listeners to the fill mode checkered
 function prepareCheckered() {
